@@ -1,0 +1,251 @@
+
+#body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    position: relative;
+}
+
+#body {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABZJREFUeNpi2r9//38gYGAEESAAEGAAasgJOgzOKCoAAAAASUVORK5CYII=);
+    font-family: 'CaviarDreamsRegular', Arial, sans-serif;
+	color: black;
+}
+
+#body > h2 {
+    font-size: 20px;
+}
+
+/* header */
+
+#body > header {
+    background-color: #000000;
+    border-bottom: 3px dotted white;
+    padding: 5px;
+}
+
+#body > header h1 {
+    color: green;
+    font-size: 32px;
+    letter-spacing: 0;
+    text-align: center;
+    text-shadow: 1px 1px 2px #FFFFFF;
+}
+
+/* container */
+
+#body > section {
+    width: 94%;
+    margin: 0 auto;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+#body > section aside,
+#images {
+    padding: 10px 0;
+}
+
+/* left side */
+
+#body > section aside {
+    width: 15%;
+    display: inline-block;
+    vertical-align: top;
+    height: 100%;
+    position: relative;
+}
+
+#body > section aside h2 {
+    padding-bottom: 10px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+#body > section aside li {
+    list-style: none outside none;
+    padding: 10px 0;
+}
+
+#body > section aside a,
+#body > section aside button {
+    width: 95%;
+}
+
+/* content */
+
+#body > section section {
+    width: 84%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+#body > section section h2 {
+    padding: 10px 0 0;
+}
+
+#images ul {
+    padding: 5px;
+}
+
+#images li {
+    list-style: none;
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+    padding: 0 0 6px;
+}
+
+#images li a.img {
+    width: 105px;
+    height: 105px;
+    display: block;
+}
+
+#images li img.thumbnail {
+    height: 100px;
+    width: 100px;
+}
+
+#images li img.thumbnail {
+    border: solid 2px #EFEFEF;
+}
+
+#images li:hover img.thumbnail {
+    border: solid 2px green;
+    box-shadow: 1px 1px 5px black;
+    cursor: pointer;
+}
+
+#images li .icon {
+    display: none;
+}
+
+#images li:hover .icon {
+    display: block;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+#images li:hover .icon:hover {
+    opacity: 1;
+}
+
+#images li .icon.fav.enable {
+    display: block;
+    opacity: 1;
+}
+
+#images .imgName {
+   /*  max-width: 100px; */
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 10px;
+    position: relative;
+    font-size: 10px;
+    text-align: center;
+    background-color: #fff;
+    opacity: 0.8;
+    padding: 2px;
+}
+
+/* image icon */
+
+.icon {
+    width: 24px;
+    height: 24px;
+    position: absolute;
+}
+
+.icon.delete {
+    background: url("../img/delete.png");
+    top: 5px;
+    right: 5px;
+}
+
+.icon.fav {
+    bottom: 20px;
+    right: 5px;
+}
+
+.icon.fav.disable {
+    background: url("../img/fav-inactive.png");
+}
+
+.icon.fav.enable {
+    background: url("../img/fav.png");
+}
+
+/* footer */
+
+footer {
+    background: none repeat scroll 0 0 lightgray;
+    border-top: 1px dotted;
+    bottom: 0;
+    font-size: 9px;
+    height: 10px;
+    position: fixed;
+    text-align: center;
+    width: 100%;
+    font-weight: bold;
+}
+
+/* styles */
+
+.stitched {
+    background: none repeat scroll 0 0 #FF0030;
+    border: 2px dashed #FFFFFF;
+    border-radius: 10px 10px 10px 10px;
+    box-shadow: 0 0 0 4px #FF0030, 2px 1px 6px 4px rgba(10, 10, 0, 0.5);
+    color: #FFFFFF;
+    font-size: 21px;
+    font-weight: normal;
+    line-height: 1.3em;
+    margin: 10px;
+    text-align: center;
+    text-shadow: -1px -1px #AA3030;
+}
+
+.stitched > input {
+    -moz-opacity: 0;
+    filter: alpha(opacity = 0);
+    opacity: 0;
+    width: 100px;
+    margin-left: -100px;
+    cursor: pointer;
+    height: 24px;
+}
+
+.stitched.greenArea {
+    background-color: lightgreen;
+    box-shadow: 0 0 0 4px lightgreen, 2px 1px 6px 4px rgba(10, 10, 0, 0.5);
+}
+#container {
+    min-height: 100%;
+    position: relative;
+}
+
+#notSupported {
+    font-size: 32px;
+    padding: 20px 0;
+    text-align: center;
+    display: none;
+}
+
+::-webkit-scrollbar {
+    height: 12px;
+	width: 12px;
+	background: #222;
+}
+::-webkit-scrollbar-thumb {
+    background: #aaa;
+}
+::-webkit-scrollbar-corner {
+    background: #666;
+}
