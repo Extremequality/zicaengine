@@ -1,8 +1,9 @@
-[![ZICA Engine logo](img/product.png)](https://zica39.github.io/zicaengine/)
 
 ## ZICA Engine
 
 Homepage: https://zica39.github.io/zicaengine/
+
+[![ZICA Engine logo](img/product.png)](https://zica39.github.io/zicaengine/)
 
 #### 2D cross-platform game engine
 
@@ -13,7 +14,17 @@ desktop platforms (Linux, Mac OSX, Windows) mobile
 (Android) and web-based (HTML5) platforms.
 
 #### Features
-[![ZICA Engine Features](img/c3events2.png)]
+![ZICA Engine Features](img/c3events2.png)
 
 #### Rapidly develop your ideas whit ZScript event system
-[![ZICA Engine ZScript system](img/c3events.png)]
+![ZICA Engine ZScript system](img/c3events.png)
+
+## To do...
+- [ ] Image & audio editor
+- [ ] RPG map editor
+- [ ] iOS buid
+- [ ] Physic engine
+- [ ] Examples
+- [ ] Docs & tutorials
+- [ ] Undo/Redo
+- [ ] More actions and behaviors
