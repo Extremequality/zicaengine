@@ -1,0 +1,986 @@
+<!doctype html>
+<html class="no-js" lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>ZICA ENGINE</title>
+	
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    
+	<script type="text/javascript" src="js/lib/datgui/dat.gui.min.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="js/lib/litegui/litegui.css">
+	<script type="text/javascript" src="js/lib/litegui/jscolor/jscolor.js"></script>
+	<script type="text/javascript" src="js/lib/litegui/litegui.js"></script>
+	
+	 <!-- <script src="asseteTab/js/jquery-1.9.1.min.js" type="text/javascript"></script> -->
+	 
+	<link href="js/lib/console/sandbox.css" rel="stylesheet" />
+    <script src="js/lib/console/libs/jquery.min.js"></script>
+	
+	<script src="js/lib/build/FileSystem.js"></script>
+	<script src="js/lib/build/jszip.min_old.js"></script>
+	<script src="js/lib/build/jszip-utils.js"></script>
+	
+	<!-- <link rel="stylesheet" href="js/lib/onsenui/css/onsenui.css">
+	<link rel="stylesheet" href="js/lib/onsenui/css/onsen-css-components.min.css">
+	<script src="js/lib/onsenui/js/onsenui.min.js"></script>
+	-->
+	
+    <script data-main="js/require-config" src="js/lib/require.js"></script>
+  </head>
+
+
+
+
+  <body onLoad="App.create();">
+  
+	<!--  <div hidden id = "editorDiv"  style="right:25em;" class="main col"> -->
+      <canvas id="field" tabindex="1" data-bind="boundEvent: { keydown: onCanvasKeyDown, mousedown: onCanvasMouseDown, mouseup: onCanvasMouseUp, mousemove: onCanvasMouseMove }"></canvas>
+	  
+	  <div id = "EventEditor" style = "height:100%;width:100%;">
+		<!-- <h2>Event Editor:</h2> -->
+		
+		<select id = "select-event"></select>
+		
+		<!-- <button onclick = "Editor.eventViewModel.onEventApplyButtonClick();" >Apply</button> -->
+		<button hidden onclick = "Editor.eventViewModel.eventApply();" >Apply</button>
+		
+		<div style = "height:100%;width:100%;" id="event-editor">
+		
+        </div>
+		
+	   
+	  </div>
+	 <!--  <iframe id = 'filemanager' style = "position:absolute; top:0%;height:100%;width:100%;" src = "http://localhost/game-maker-js-master/game-maker-js-master/typings/Filemanager-master/Filemanager-master/index.html"></iframe> -->
+	 <!--  <iframe id = 'filemanager' style = "position:absolute; top:0%;height:100%;width:100%;" src = "filemanager/filemanager.php"></iframe> -->
+	  <iframe id = 'filemanager' style = "position:absolute; top:0%;height:100%;width:100%;" src = "js/lib/asseteTab/ImageManager.html"></iframe>
+	  <iframe id = 'prefabsTab' style = "position:absolute; top:0%;height:100%;width:100%;" src = "js/lib/prefabsTab/index.html"></iframe>
+	  <iframe id = 'ZScript' style = "position:absolute; top:0%;height:100%;width:100%;" src = "js/lib/ZScript/index.html"></iframe>
+	  <iframe id = 'animaiton' style = "position:absolute; top:0%;height:100%;width:100%;" src = "js/lib/AnimationManager/index.html"></iframe>
+	  
+	  <!-- <iframe id = 'timeline' style = "position:absolute; top:0%;height:100%;width:100%;" src = "js/lib/timeline/examples/index.html#" ></iframe> -->
+	 
+	<!-- </div> -->
+	
+	<ul hidden class="thumbnails" id = 'build'>
+	  <li>
+		<p align='center'>Web</p>
+		<img src="img/web.png" alt="Logo">
+		<button style = 'position:absolute;bottom:0px;right:0px' onclick = "Editor.buildWeb(this);">
+          <i class="fa fa-download" ></i>
+        </button>
+	  </li>
+	  
+	  <li>
+	    <p align='center'>Android</p>
+		<img src="img/android.png" alt="Logo">
+		<button style = 'position:absolute;bottom:0px;right:0px' onclick = "Editor.buildAndroid();">
+          <i class="fa fa-download" ></i>
+        </button>
+	  </li>
+	  
+	  <li>
+	    <p align='center'>Windows</p>
+		<img src="img/windows.png" alt="Logo">
+		<button style = 'position:absolute;bottom:0px;right:0px'  onclick = "Editor.buildWindows();">
+          <i class="fa fa-download" ></i>
+        </button>
+	  </li>
+	  
+	  <li>
+	    <p align='center'>Linux</p>
+		<img src="img/linux.png" alt="Logo">
+		<button style = 'position:absolute;bottom:0px;right:0px'  onclick = "">
+          <i class="fa fa-download" ></i>
+        </button>
+	  </li>
+	  
+	  <li>
+	    <p align='center'>Mac</p>
+		<img src="img/osx.png" alt="Logo">
+		<button style = 'position:absolute;bottom:0px;right:0px'  onclick = "">
+          <i class="fa fa-download" ></i>
+        </button>
+	  </li>
+	  
+	  <li>
+	    <p align='center'>Chrome</p>
+		<img src="img/chrome.png" alt="Logo">
+		<button style = 'position:absolute;bottom:0px;right:0px'  onclick = "Editor.buildChrome();">
+          <i class="fa fa-download" ></i>
+        </button>
+	  </li>
+	  
+	</ul>
+  
+	<div style="height:25px">
+	
+		<!-- <div class="sidebar-header">
+        <h1 class="center">KL Game Maker</h1>
+        <div class="center">v0.03</div>
+      </div> -->
+
+
+      <div class="sidebar-controls">
+        <input id="file-dialog" type="file" style="display: none;" data-bind="boundEvent: { change: onFileDialogClose }">
+
+        <button id="file-new-button" data-bind="click: newProject">
+          <i class="fa fa-file-o" aria-hidden="true"></i>
+        </button>
+
+        <button id="file-open-button" data-bind="click: openProject">
+          <i class="fa fa-folder-open-o" aria-hidden="true"></i>
+        </button>
+
+        <button id="file-save-button" data-bind="click: saveProject">
+          <i class="fa fa-floppy-o" aria-hidden="true"></i>
+        </button>
+
+        <button id="file-export-button" data-bind="click: exportProject">
+          <i class="fa fa-download" aria-hidden="true"></i>
+        </button>
+		
+		<button  id="file-inport-button" onclick = "Editor.import();">
+          <i class="fa fa-upload" aria-hidden="true"></i>
+        </button>
+		
+		<button id="file-share-button" onclick='Editor.shareToPrefabs();'>
+          <i class="fa fa-share-square-o" aria-hidden="true"></i>
+        </button>
+		
+		<button id="play-pause-button" data-bind="click: togglePlayPauseGame">
+          <i class="fa" data-bind="css: { 'fa-play': gameRunningState() != 2, 'fa-pause': gameRunningState() == 2 }" aria-hidden="true"></i>
+        </button>
+
+        <button id="stop-button" data-bind="click: stopGame, style: { flex: gameRunningState() == 1 ? 0 : 1 }, css: { 'no-padding': gameRunningState() == 1 }">
+          <i class="fa" aria-hidden="true" data-bind="css: { 'fa-stop': gameRunningState() != 1 }"></i>
+        </button>
+		
+		
+		<!-- <button id="file-sistem-button"  onclick="Editor.openEditor('filemanager')">
+          <i class="fa fa-folder" aria-hidden="true"></i>
+        </button>
+		
+		<button id="scene-button" onclick="Editor.closeAllEditors()">
+          <i class="fa fa-edit" aria-hidden="true"></i>
+        </button>
+		
+		<button id="event-button" onclick="Editor.openEditor('EventEditor');Editor.eventViewModel.initEditor();">
+          <i class="fa fa-puzzle-piece" aria-hidden="true"></i>
+        </button>-->
+		
+		<button id="build-button" onclick = "openBuildTab();">
+           <i class="fa fa-android" aria-hidden="true"></i>
+        </button>
+		
+		<button id="add-sprite-button" data-bind="click: spawnEntity">
+           <i class="fa fa-plus-circle" aria-hidden="true"></i>
+        </button>
+        
+        <button id="duplicate-sprite-button" data-bind="click: duplicateSelectedEntity">
+           <i class="fa fa-clone" aria-hidden="true"></i>
+        </button>
+        
+        <button id="remove-sprite-button" data-bind="click: removeSelectedEntity">
+          <i class="fa fa-trash" aria-hidden="true"></i>
+        </button>
+		
+		<button id="copy-sprite-button" onclick = 'Editor.copyEntity();'>
+          <i class="fa fa-copy" aria-hidden="true"></i>
+        </button>
+		
+		<button id="paste-sprite-button" onclick = 'Editor.pasteEntity();'>
+          <i class="fa fa-paste" aria-hidden="true"></i>
+        </button>
+		
+		<button id="cut-sprite-button" onclick = 'Editor.cutEntity();'>
+          <i class="fa fa-cut" aria-hidden="true"></i>
+        </button>
+		
+		<button id="settings" onclick = "openSettingTab();">
+          <i class="fa fa-cog" aria-hidden="true"></i>
+        </button>
+		
+		<button id="remove-sprite-button" onclick = "openAboutTab();">
+          <i class="fa fa-info-circle" aria-hidden="true"></i>
+        </button>
+		
+		<button id="remove-sprite-button" onclick = "Editor.toggleFullScreen();">
+          <i id = 'fsicon' class="fa fa-expand" aria-hidden="true"></i>
+        </button>
+		
+		
+		
+		<!-- <button id="add-sprite-button" data-bind="click: spawnEntity">
+          Add Entity
+        </button>
+        
+        <button id="duplicate-sprite-button" data-bind="click: duplicateSelectedEntity">
+          Duplicate Entity
+        </button>
+        
+        <button id="remove-sprite-button" data-bind="click: removeSelectedEntity">
+          Remove Entity
+        </button> -->
+      </div>
+      
+
+     <!--  <div class="sidebar-controls">
+        <button id="play-pause-button" data-bind="click: togglePlayPauseGame">
+          <i class="fa" data-bind="css: { 'fa-play': gameRunningState() != 2, 'fa-pause': gameRunningState() == 2 }" aria-hidden="true"></i>
+        </button>
+
+        <button id="stop-button" data-bind="click: stopGame, style: { flex: gameRunningState() == 1 ? 0 : 1 }, css: { 'no-padding': gameRunningState() == 1 }">
+          <i class="fa" aria-hidden="true" data-bind="css: { 'fa-stop': gameRunningState() != 1 }"></i>
+        </button>
+      </div>
+
+	<div class="sidebar-controls">
+        
+        <button id="file-sistem-button"  onclick="Editor.openEditor('filemanager')">
+          <i class="fa fa-folder" aria-hidden="true"></i>
+        </button>
+		
+		<button id="scene-button" onclick="Editor.closeAllEditors()">
+          <i class="fa fa-edit" aria-hidden="true"></i>
+        </button>
+		
+		<button id="event-button" onclick="Editor.openEditor('EventEditor');Editor.eventViewModel.initEditor();">
+          <i class="fa fa-puzzle-piece" aria-hidden="true"></i>
+        </button>
+
+     
+      </div>
+
+      <div class="sidebar-controls">
+        <button id="add-sprite-button" data-bind="click: spawnEntity">
+          Add Entity
+        </button>
+        
+        <button id="duplicate-sprite-button" data-bind="click: duplicateSelectedEntity">
+          Duplicate Entity
+        </button>
+        
+        <button id="remove-sprite-button" data-bind="click: removeSelectedEntity">
+          Remove Entity
+        </button>
+      </div> -->
+	
+	
+	</div>
+	
+	<!-- The sandbox template -->
+	<script type="text/template" id="tplSandbox">
+		<pre class="output"></pre>
+		<div class="input">
+			<textarea rows="1" placeholder="<%= placeholder %>"></textarea>
+		</div>
+	</script>
+
+	<!-- The command/result template (NB whitespace/line breaks matter inside <pre> tag): -->
+	<script type="text/template" id="tplCommand"><% if (! _hidden) { %><span class="command"><%= command %></span>
+	<span class="prefix"><%= this.resultPrefix %></span><span class="<%= _class %>"><%= result %></span>
+	<% } %></script>
+	
+	
+	<!-- <section id = 'asseteTab' hidden >
+        <header>
+            <h2>Images</h2>
+        </header>
+        <p hidden class1="dropArea stitched">
+            You can DragDrop image to this area, or
+            <a href="#" id="AddImage">click here</a>
+            <input type="file" id="files" name="files[]" multiple />
+        </p>
+        <article id="images" >
+            <ul>
+            </ul>
+        </article>
+    </section> -->
+	
+	<script src="js/lib/console/libs/underscore.min.js"></script>
+	<script src="js/lib/console/libs/backbone.min.js"></script>
+	<script src="js/lib/console/libs/backboneLS.js"></script><!-- opt -->
+	<!-- <script src="js/lib/console/libs/jquery.min.js"></script> -->
+
+	<script src="js/lib/console/sandbox-console.js"></script>
+
+	<script type="text/javascript">
+		// additonal functions 
+		
+		var defaultSettings = {};
+		
+		defaultSettings.Editor = {};
+		defaultSettings.Editor.__split = ['horizonta','vertical'];
+		defaultSettings.Editor.split = 'vertical';
+		//defaultSettings.Editor.splitColor = 'rgb(0,0,0)'
+		
+		defaultSettings.Assete = {};
+		defaultSettings.Assete.iconSize = 100;
+			
+		var settings = localStorage.getItem('settings');
+		if(settings) settings = JSON.parse(settings);
+		else
+		settings = defaultSettings;
+		
+		
+		var iconButton = function(icon,func){
+			
+			var addButton = document.createElement('button');
+			addButton.style.background = 'transparent';
+			addButton.style.border = 'none';
+			//addButton.style.outline = '-1px solid white';
+			//addButton.setAttribute('onclick' , 'Editor.addScene()');
+			var a = document.createElement('a');
+			a.className = 'fa fa-'+ icon;
+			a.setAttribute('aria-hidden',"true");
+			addButton.appendChild(a);
+			addButton.onclick = func;
+			return addButton;
+			
+		};
+		
+		var addIconToTab = function(tab,icon,func){
+			
+			var tit = tab.title.innerHTML;
+			tab.title.innerHTML = '';
+			var button = iconButton(icon,func);
+			if(!func) button.disabled = 'disabled';
+			tab.title.appendChild(button);
+			tab.title.innerHTML += tit;
+			
+		};
+		
+		//call the init to setup 
+		LiteGUI.init();
+		
+		//var mainarea = new LiteGUI.Area({content_id:"workarea", height: "30px", autoresize: true, inmediateResize: true, minSplitSize: 200 });
+		//LiteGUI.add( mainarea );
+		//create a main container and split it in two
+		var mainarea = new LiteGUI.Area("mainarea",{content_id:"canvasarea",height: "calc(100% - 30px)", autoresize: true, inmediateResize: true});
+		mainarea.split("horizontal",[250,null], true);
+		mainarea.root.style.overflow = 'hidden';
+		LiteGUI.add( mainarea );
+
+		//create a left panel
+		var side_panel = new LiteGUI.Panel("sidepanel",{title:"", width: 200});
+		//--side_panel.root.style.overflowY = 'auto';
+		mainarea.getSection(0).add( side_panel );
+
+		//create a inspector (widget container)
+		/////////////////////////////////////
+		var root = side_panel;
+		//tabs 
+		var tabs_widget = new LiteGUI.Tabs();
+		//tabs_widget.addTab("Info");
+		var graph_tab = tabs_widget.addTab("SceneGraph",{selected:true, width: "100%", height: 100});
+		addIconToTab(graph_tab,'list',null);
+		graph_tab.title.parentElement.onclick = function(){widgets.root.style.display = '';};
+		
+		var sceneTab = tabs_widget.addTab("Scene");
+		sceneTab.content.style.width = '100%';
+		sceneTab.content.style.height = 'calc(100vh - 36px)';//50
+		sceneTab.content.style.overflow = 'auto';
+		
+		addIconToTab(sceneTab,'globe',null);
+		sceneTab.title.onclick = function(){widgets.root.style.display = 'none';};
+		//sceneTab.title.onclick = function(){Editor.updateSceneGUI()};
+		
+		var appTab = tabs_widget.addTab("App");
+		appTab.content.style.width = '100%';
+		appTab.content.style.height = 'calc(100vh - 36px)';//50
+		appTab.content.style.overflow = 'auto';
+		
+		addIconToTab(appTab,'desktop',null);
+		appTab.title.onclick = function(){widgets.root.style.display = 'none';};
+		
+		/*var gui = new dat.GUI({ autoPlace: false , width:'100%'});
+		var container = gui.domElement;	
+		gui.__closeButton.style.visibility = 'hidden';
+		
+		sceneTab.content.appendChild(container);
+		
+		//demo scene 
+		var scene = {
+		id:0,
+		name:'Scene',
+		color:'#ffffff',
+		width : 400,
+		height : 400
+		}
+		
+		gui.add(scene,'name');
+		gui.addColor(scene,'color');
+		
+		var f1 = gui.addFolder('Canvas');
+		f1.add(scene,'width');
+		f1.add(scene,'height');*/
+		
+		//sceneTab.content.children[0].style.width = '100%';
+		//var f1 = this.propertiesGui.addFolder('Text');
+			
+		
+		//tabs_widget.getTabContent("Tree").appendChild( LiteGUI.createElement( "strong",null,"Example of code inside tab container") );
+		
+		
+		//tree
+		var mytree = { 
+				
+		};
+
+		var litetree = new LiteGUI.Tree( mytree, { allow_rename: false });
+		//mytree.DOM.children[0].children[2].innerHTML = '';
+		//mytree.DOM.style.display = 'none';
+		
+		var addButton = document.createElement('button');
+			addButton.style.background = 'transparent';
+			addButton.style.border = 'none';
+			var a = document.createElement('a');
+			a.className = 'fa fa-caret-down';
+			a.setAttribute('aria-hidden',"true");
+			addButton.appendChild(a);
+			
+			addButton.disabled = 'disabled';
+			mytree.DOM.children[0].children[2].innerHTML = '';
+			mytree.DOM.children[0].children[2].appendChild(addButton);
+			
+		LiteGUI.bind( litetree.root, "item_selected", function(e) {
+			
+			var entity = Editor.getEntityById(e.detail.data.id);
+			
+			if(entity)if(entity.locked)return;
+			Editor.selectEntity(entity);
+			
+			if(entity){
+			Editor.focus(entity);
+			}
+			
+			if(this.selected == null)Editor.updateTree();
+			e.detail.data.DOM.style.background = 'black';
+			
+			
+			
+			//console.log("Node selected: ", e.detail); 
+		});
+		var tree_tab_content = tabs_widget.getTabContent("SceneGraph");
+		tree_tab_content.appendChild( litetree.root )
+
+		tree = litetree;
+		//litetree.insertItem( {id:"FOO"}, "Child2",2 );
+		//litetree.removeItem( "SubChild1" );
+		//litetree.moveItem( "FOO", "Child3" );
+		//litetree.insertItem( {id:"MAX"}, "Child1" );
+		
+		litetree.root.parentElement.style.overflow = 'auto';
+		root.add( tabs_widget );
+
+		//side panel widget
+		widgets = new LiteGUI.Inspector();
+		widgets.onchange = function(name,value,widget) {
+			console.log("Widget change: " + name + " -> " + value );
+		};
+		root.content.appendChild(widgets.root);
+
+		widgets.root.appendChild( LiteGUI.createElement( "strong",null,"") );//Properties
+		
+		var div = widgets.addContainer();
+		div.id = 'properties';
+		div.style.marginTop = '5px';
+		//widgets.root.appendChild(div);
+		
+		widgets.root.style.overflowY = 'auto';
+		widgets.root.style.height = 'calc(100% - 110px)';
+		
+		/////////////////////////////////////
+		
+		var mainarea1 = new LiteGUI.Area("mainarea1",{content_id:"canvasarea",height: "calc(100% - 30px)", autoresize: true, inmediateResize: true});
+		
+		if(settings.Editor.split == 'vertical')
+		mainarea1.split("vertical",['70%',null], true);
+		else
+		mainarea1.split("horizontal",['55%',null], true);
+		
+		mainarea1.root.style.overflow = 'hidden';
+		mainarea1.root.style.height = '';
+		mainarea.getSection(1).add( mainarea1 );
+		
+		//create right panel
+		var main_panel = new LiteGUI.Panel("mainpanel");
+		mainarea1.getSection(0).add(main_panel);
+		//create some tabs
+		var tabs = new LiteGUI.Tabs("tabs",{ size: "full" });
+		
+		var scene_tab = tabs.addTab("Scene Editor", { height: "95%",width:"100%" });
+		addIconToTab(scene_tab,'edit',null);
+		scene_tab.content.style.overflow = 'auto';
+		
+		/*var div2 = document.createElement('div');
+		div2.className = 'sidebar-controls';
+		div2.style.height = '10px';
+		
+		div2.style.position = 'fixed';
+		
+		var button = document.getElementById('play-pause-button');
+		div2.appendChild(button);
+		var button = document.getElementById('stop-button');
+		div2.appendChild(button);
+		var button = document.getElementById('build-button');
+		div2.appendChild(button);
+		var button = document.getElementById('add-sprite-button');
+		div2.appendChild(button);
+		var button = document.getElementById('duplicate-sprite-button');
+		div2.appendChild(button);
+		var button = document.getElementById('remove-sprite-button');
+		div2.appendChild(button);
+		
+		scene_tab.content.appendChild(div2);*/
+		
+		var canvas = document.getElementById('field');
+		
+		scene_tab.content.appendChild(canvas);
+		
+		scene_tab.tab.onclick = function(){Editor.canvas.redraw()};
+		
+		canvas.redraw = function() {
+		
+		if(!Game.autoSize){
+		scene_tab.content.style.overflow = 'auto';
+		return;
+		}
+		
+		scene_tab.content.style.overflow = 'hidden';
+		var rect = this.parentNode.getClientRects()[0];
+		
+		if(!rect)return;
+
+		this.width = rect.width;
+		this.height = rect.height;
+		
+		Game.width = rect.width;
+		Game.height = rect.height;
+		
+		/*if(Game.autoSize && Game.fullScreen){
+			this.width = window.innerWidth;
+			this.height = window.innerWidth;
+			Game.width = this.width;
+			Game.height = this.height;
+		}*/
+		
+		Editor.update();
+		Editor.updateAppGUI();
+		
+		
+		}
+		
+		//scene_tab.content.style.overflow = 'auto';
+		
+		//var code_tab = tabs.addTab("Event Editor", { size: "full" });
+		//code_tab.content.appendChild(document.getElementById('EventEditor'));
+		//code_tab.content.style.overflow = 'hidden';
+		//code_tab.tab.onclick = function(){Editor.eventViewModel.initEditor();}
+		
+		//var code_tab = tabs.addTab("File Manager", { size: "full" });
+		//code_tab.content.style.overflow = 'hidden';
+		//code_tab.content.appendChild(document.getElementById('filemanager'));
+		
+		var settingsTab = null;
+		
+		function openSettingTab(){
+			if(tabs.getTab("Settings")){tabs.getTab("Settings").click();return};
+		
+		settingsTab = tabs.addTab("Settings", { selected:true, closable:true , size: "full" });
+		addIconToTab(settingsTab,'cog',null);
+		settingsTab.content.style.overflowY = 'auto';
+			
+			settingsTab.settingsGui = new dat.GUI({ autoPlace: false , width:'100%'});
+			var container = settingsTab.settingsGui.domElement;	
+			settingsTab.settingsGui.__closeButton.style.visibility = 'hidden';
+			settingsTab.content.appendChild(container);
+			
+			
+			var settings = Editor.settings;
+			
+			for(var i in settings){
+				
+				if(settings[i] instanceof Object){
+					
+					var f1 = settingsTab.settingsGui.addFolder(i);
+					f1.open();
+					
+					for(var ii in settings[i]){
+						
+						if(ii.includes("__"))continue;
+						
+						if(ii.includes("Color"))f1.addColor(settings[i],ii);
+						else f1.add(settings[i],ii,settings[i]['__'+ii]);
+					
+					}
+				}
+			
+			}
+			
+			settingsTab.defaultSettings = function(){Editor.defaultSettings()};
+			settingsTab.reloadEditor = function(){location.reload();};
+			
+			settingsTab.settingsGui.add(settingsTab,'defaultSettings');
+			settingsTab.settingsGui.add(settingsTab,'reloadEditor');
+			
+			for (var i in settingsTab.settingsGui.__controllers) {
+			settingsTab.settingsGui.__controllers[i].onChange(function(e){
+				
+				//Editor.update();
+				//if(this.property == 'name'){Editor.updateTree();Editor.updateAppGUI();}
+			
+			}); 
+		 }
+		 
+		 for (var i in settingsTab.settingsGui.__folders) {
+					
+				for (var i1 in settingsTab.settingsGui.__folders[i].__controllers) {
+					
+					settingsTab.settingsGui.__folders[i].__controllers[i1].onChange(function(e){
+					
+					/* if(this.property == 'width')Editor.canvas.width = e;
+					if(this.property == 'height')Editor.canvas.height = e; */
+					//Editor.update();
+			}); 
+					
+				}
+					
+			}
+		
+		settingsTab.tab.children[1].onclick = function(){scene_tab.click()}
+		
+		}
+		
+		function openAboutTab(){
+			if(tabs.getTab("About")){tabs.getTab("About").click();return};
+		
+		var code_tab = tabs.addTab("About", { selected:true, closable:true , size: "full" });
+		addIconToTab(code_tab,'info-circle',null);
+		code_tab.content.style.overflow = 'hidden';
+		
+		var div = document.createElement('div');
+		div.style.height = '75%';
+		div.style.backgroundImage = 'url(img/logo.png)';
+		div.style.backgroundRepeat = 'no-repeat';
+		div.style.backgroundPosition = 'center';
+		div.style.backgroundSize = 'contain';
+		
+		var div1 = document.createElement('div');
+		div1.innerHTML = '<center><h2>ZICA ENGINE V1.0.0</h2>'+
+		'<p>Create 2D games & apps without programming.</p>' +
+		'<br><center>Copyright © 2020 Željko Ivanović</center>';
+		
+		
+		code_tab.content.appendChild(div);
+		code_tab.content.appendChild(div1);
+		
+		code_tab.tab.children[1].onclick = function(){scene_tab.click()}
+		
+		}
+		
+		var run_tab = null;
+		
+		function openRunTab(){
+			if(tabs.getTab("Run")){tabs.getTab("Run").destroy();scene_tab.click();window.run_tab = null;return};
+		
+		window.run_tab = tabs.addTab("Run", { selected:true,height: "95%",width:"100%" });
+		addIconToTab(run_tab,'play',null);
+		window.run_tab.content.style.overflow = 'hidden';
+		
+		var iframe = document.createElement('iframe');
+		iframe.id = 'run_game';
+		iframe.setAttribute('allowFullScreen', '');
+		run_tab.content.appendChild(iframe);
+		iframe.style.top = '0px';
+		iframe.style.left = '0px';
+		iframe.style.width = '100%';
+		iframe.style.height = '100%';
+		iframe.style.overflow = 'hidden';
+		
+		//iframe.src = 'app/index.htm';
+		iframe.src = 'js/lib/app/index.htm';
+		
+		/*if(Editor.settings.detachTab){
+				tabs.detachTab('Run');
+				iframe.contentWindow.top = 0;
+				iframe.contentWindow.left = 0;
+				iframe.contentWindow.width = window.outerWidth;
+				iframe.contentWindow.height = window.outerHeight;
+		}*/
+		
+		iframe.onload = function(){
+		
+			bubbleIframeMouseMove(this);
+			
+			var out = Editor.getGameData();
+			this.contentWindow.gameData = out;
+			
+		}
+		//code_tab.tab.children[1].onclick = function(){scene_tab.click()}
+		
+		}
+		
+		
+		function openBuildTab(){
+			if(tabs.getTab("Build")){tabs.getTab("Build").click();return};
+		
+		window.build_tab = tabs.addTab("Build", { selected:true, closable:true , size: "full" });
+		addIconToTab(build_tab,'android',null);
+		//build_tab.content.style.overflow = 'hidden';
+		build_tab.content.style.boxSizing = 'border-box';
+		var build = document.getElementById('build').cloneNode(true);
+		build.removeAttribute('hidden');
+		
+		build_tab.content.appendChild(build);
+		
+		build_tab.tab.children[1].onclick = function(){scene_tab.click()}
+		
+		}
+		
+		//closable:true 
+		//widgets.addButton(null,"Detach Code tab", function() { tabs.detachTab("Code"); });
+			
+		main_panel.add(tabs);
+		
+		//create right panel
+		var main_panel1 = new LiteGUI.Panel("mainpanel1");
+		mainarea1.getSection(1).add(main_panel1);
+		main_panel1.root.style.backgroundColor = '#000';
+		//create some tabs
+		var tabs1 = new LiteGUI.Tabs("tabs1",{ size: "full" });
+		
+		var console_tab = tabs1.addTab("Console", { size: "full" });
+			
+		addIconToTab(console_tab,'terminal',null);
+			
+		console_tab.content.style.overflow = 'hidden';
+		console_tab.content.id = 'sandbox';
+		console_tab.content.innerHTML = 'sandbox loading...';
+		console_tab.tab.onclick = function(){sandbox.textarea.focus();};
+		
+		var assete_tab = tabs1.addTab("Assete", { selected:true,size: "full" });
+			
+		addIconToTab(assete_tab,'image',null);
+		assete_tab.content.style.overflow = 'hidden';
+		assete_tab.content.appendChild(document.getElementById('filemanager'));	
+		
+		var div = document.createElement('div');
+		div.style.display = 'none';
+		div.id = 'asseteAddButton';
+		div.className = 'fab fa fa-plus-circle';
+		//div.innerHTML = ' + ';
+		div.style.position = 'absolute';
+		div.style.right = '10px';
+		div.style.bottom = '10px';
+		//div.classList.add('fa fa-add');
+		div.onclick = function(){
+			frames[0].files.click();
+		}
+		
+		assete_tab.content.appendChild(div);
+		
+		function bubbleIframeMouseMove(iframe){
+		// Save any previous onmousemove handler
+		var existingOnMouseMove = iframe.contentWindow.onmousemove;
+
+		// Attach a new onmousemove listener
+		iframe.contentWindow.onmousemove = function(e){
+			// Fire any existing onmousemove listener 
+			if(existingOnMouseMove) existingOnMouseMove(e);
+
+			// Create a new event for the this window
+			var evt = document.createEvent("MouseEvents");
+
+			// We'll need this to offset the mouse move appropriately
+			var boundingClientRect = iframe.getBoundingClientRect();
+
+			// Initialize the event, copying exiting event values
+			// for the most part
+			evt.initMouseEvent( 
+				"mousemove", 
+				true, // bubbles
+				false, // not cancelable 
+				window,
+				e.detail,
+				e.screenX,
+				e.screenY, 
+				e.clientX + boundingClientRect.left, 
+				e.clientY + boundingClientRect.top, 
+				e.ctrlKey, 
+				e.altKey,
+				e.shiftKey, 
+				e.metaKey,
+				e.button, 
+				null // no related element
+			);
+
+			// Dispatch the mousemove event on the iframe element
+			iframe.dispatchEvent(evt);
+		};
+}
+
+			
+		//var assete = document.getElementById('asseteTab');
+		//assete_tab.content.appendChild(assete);
+		//assete_tab.content.id = 'body';
+		//assete_tab.content.classList.add('dropArea');
+		//assete_tab.content.style.overflowX = 'hidden';
+		//assete.removeAttribute('hidden');
+		
+		var code_tab = tabs1.addTab("Code", { size: "full" });
+		addIconToTab(code_tab,'code',null);
+		code_tab.content.appendChild(document.getElementById('EventEditor'));
+		code_tab.content.style.overflow = 'hidden';
+		//code_tab.tab.onclick = function(){/*Editor.eventViewModel.initEditor();*/}
+		
+		var prefabs_tab = tabs1.addTab("Prefabs", { size: "full" });
+			
+		addIconToTab(prefabs_tab,'gift',null);
+		prefabs_tab.content.style.overflow = 'hidden';
+		prefabs_tab.content.appendChild(document.getElementById('prefabsTab'));	
+		
+		var div = document.createElement('div');
+		div.id = 'prefabsAddButton';
+		div.className = 'fab fa fa-plus-circle';
+		div.style.position = 'absolute';
+		div.style.right = '10px';
+		div.style.bottom = '10px';
+	
+		div.onclick = function(){
+			frames[1].document.getElementById('files').click()
+		}
+		
+		prefabs_tab.content.appendChild(div);
+		
+		
+		var zscript_tab = tabs1.addTab("ZScript", { size: "full" });
+			
+		addIconToTab(zscript_tab,'puzzle-piece',null);
+		zscript_tab.content.style.overflow = 'hidden';
+		zscript_tab.content.appendChild(document.getElementById('ZScript'));	
+		
+		
+		var animation_tab = tabs1.addTab("Animation", {size: "full" });
+			
+		addIconToTab(animation_tab,'magic',null);
+		animation_tab.content.style.overflow = 'hidden';
+		animation_tab.content.appendChild(document.getElementById('animaiton'));	
+		
+		/*
+		var animation_tab = tabs1.addTab("Animation", {size: "full" });
+			
+		addIconToTab(animation_tab,'magic',null);
+		animation_tab.content.style.overflow = 'hidden';
+		animation_tab.content.appendChild(document.getElementById('timeline'));	
+		*/
+		
+		main_panel1.add(tabs1);
+		
+		
+		jQuery(document).ready(function($) {
+			// Create the sandbox:
+			window.sandbox = new Sandbox.View({
+				el : $('#sandbox'),
+				model : new Sandbox.Model(),
+				resultPrefix : "> ",
+				helpText : "type javascript commands into the console, hit enter to evaluate. \n[up/down] to scroll through history, ':clear' to reset it. \n[alt + return/up/down] for returns and multi-line editing.",
+				tabCharacter : "  ",
+				placeholder : "// type code here and hit enter (:help for info)"
+			});
+			//sandbox.model.destroy();
+			
+			var con = sandbox.el[0];
+			con.style.borderRadius = 0;
+
+			var cbox = sandbox.output[0];
+			cbox.style.position = 'static';
+			cbox.style.left = '0px';
+			cbox.style.top = '0px';
+			cbox.style.height = '100%';
+			
+			sandbox.textarea.focus();
+			var tea = sandbox.textarea[0];
+			
+			bubbleIframeMouseMove(document.getElementById('filemanager'));
+			bubbleIframeMouseMove(document.getElementById('prefabsTab'));
+			bubbleIframeMouseMove(document.getElementById('ZScript'));
+			bubbleIframeMouseMove(document.getElementById('animaiton'));
+			
+			//frames[1].full.dom.click();
+			//frames[1].full.dom.style.display = 'none';
+			
+			document.addEventListener('keydown', function(e) {
+				if(e.which == 116) {
+					
+					e.preventDefault();
+					
+					if(Game.state == 1){
+					document.getElementById('play-pause-button').click();
+					return;
+					}
+					if(Game.state == 2)document.getElementById('stop-button').click();
+	
+				}
+				
+				if (event.keyCode === 8) {
+					var doPrevent = true;
+					var types = ["text", "password", "file", "search", "email", "number", "date", "color", "datetime", "datetime-local", "month", "range", "search", "tel", "time", "url", "week"];
+					var d = $(event.srcElement || event.target);
+					var disabled = d.prop("readonly") || d.prop("disabled");
+					if (!disabled) {
+						if (d[0].isContentEditable) {
+							doPrevent = false;
+						} else if (d.is("input")) {
+							var type = d.attr("type");
+							if (type) {
+								type = type.toLowerCase();
+							}
+							if (types.indexOf(type) > -1) {
+								doPrevent = false;
+							}
+						} else if (d.is("textarea")) {
+							doPrevent = false;
+						}
+					}
+					if (doPrevent) {
+						event.preventDefault();
+						return false;
+					}
+				}
+			});
+		
+			mainarea.onresize = function() { 
+			Editor.canvas.redraw();
+			//if(run_tab)run_tab.content.firstChild.contentDocument.body.firstChild.redraw();
+			};
+			mainarea1.onresize = function() { 
+			Editor.canvas.redraw();
+			//if(run_tab)run_tab.content.firstChild.contentDocument.body.firstChild.redraw();
+			};
+			window.onresize = function() { 
+			Editor.canvas.redraw();
+			//if(run_tab)run_tab.content.firstChild.contentDocument.body.firstChild.redraw();
+			};
+		});
+	
+		
+	</script>
+	
+   <!-- <div style = "" id="properties">
+          
+    </div>
+ -->
+	
+	<script type="text/javascript" src="js/lib/TransformTool/Utils.js"></script>
+	<script type="text/javascript" src="js/lib/TransformTool/TransformTool.js"></script>
+	<script type="text/javascript" src="js/lib/TransformTool/TransformCanvasPictures.js"></script>
+	
+  </body>
+</html>
