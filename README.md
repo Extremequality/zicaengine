@@ -25,8 +25,11 @@ desktop platforms (Linux, Mac OSX, Windows) mobile
 - [ ] RPG map editor
 - [ ] iOS buid
 - [ ] Physic engine
-- [ ] Examples
+- [ ] Demos
 - [ ] Docs & tutorials
 - [ ] Undo/Redo
 - [ ] Timeline editor
 - [ ] More actions and behaviors
+
+#### Code example
+![ZICA Engine ZScript system](img/c3events1.png)
