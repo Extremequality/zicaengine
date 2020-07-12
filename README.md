@@ -1,14 +1,14 @@
 
 ## ZICA Engine
 
-Homepage: https://zica39.github.io/zicaengine/
+Try it: https://zica39.github.io/zicaengine/
 
 [![ZICA Engine logo](img/product.png)](https://zica39.github.io/zicaengine/)
 
 #### 2D cross-platform game engine
 
 ZICA Engine is a simple cross-platform game engine to create 2D games & apps without programming. It provides a comprehensive set of common
-tools, so that users can focus on making games without programming( with just a few clicks ).
+tools, so that users can focus on making games without programming (with just a few clicks).
 But also supports scripting for advanced users. Games can be exported in one click to a number of platforms, including
 desktop platforms (Linux, Mac OSX, Windows), mobile
 (Android) and web-based (HTML5) platforms.
@@ -31,7 +31,7 @@ desktop platforms (Linux, Mac OSX, Windows), mobile
 - [ ] Serialization
 - [ ] GUI components
 - [ ] Timeline editor
-- [ ] More actions and behaviors
+- [ ] More actions and behaviours
 
 #### Code example
 ![ZICA Engine ZScript system](img/c3events1.png)
