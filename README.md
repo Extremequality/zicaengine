@@ -20,6 +20,7 @@ desktop platforms (Linux, Mac OSX, Windows) mobile
 ![ZICA Engine ZScript system](img/c3events.png)
 
 ## To do...
+- [ ] Windows Mac Linux 32&64 build
 - [ ] Image & audio editor
 - [ ] RPG map editor
 - [ ] iOS buid
@@ -27,4 +28,5 @@ desktop platforms (Linux, Mac OSX, Windows) mobile
 - [ ] Examples
 - [ ] Docs & tutorials
 - [ ] Undo/Redo
+- [ ] Timeline editor
 - [ ] More actions and behaviors
