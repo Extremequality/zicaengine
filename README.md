@@ -1,7 +1,7 @@
 
 ## ZICA Engine
 
-Try it: https://zica39.github.io/zicaengine/
+Homepage: https://zica39.github.io/zicaengine/
 
 [![ZICA Engine logo](img/product.png)](https://zica39.github.io/zicaengine/)
 
